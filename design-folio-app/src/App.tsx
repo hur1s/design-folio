@@ -23,7 +23,7 @@ import xbox from './assets/xbox.jpg';
 
 
 function App() {
-  let isLoaded = false;
+  const [isLoaded, setIsLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [showImage, setShowImage] = useState('');
   const images: string[] = [
@@ -60,22 +60,21 @@ function App() {
     setShowImage('');
   }
 
-  const cacheImages = async (srcArray: string[]) => {
+  const cacheImages = async function(srcArray: string[]) {
     try {
       const promises = await srcArray.map(src => {
         return new Promise((resolve, reject) => {
           const img = new Image();
           img.src = src;
           img.onload = () => {
-            console.log('Loaded ', img);
             resolve(img);
           };
           img.onerror = () => reject();
         })
       });
       await Promise.all(promises);
+      setIsLoaded(true);
       setIsLoading(false);
-      isLoaded = true;
     } catch (error) {
       console.log(JSON.stringify(error, ["message", "arguments", "type", "name"]));
     }
