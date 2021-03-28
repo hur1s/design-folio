@@ -1,14 +1,10 @@
 .thumbnail {
-  height: 20vw;
-  width: 20vw;
   overflow: hidden;
-  background-position-x: 10%;
+  background-position: 10% 5%;
   background-repeat: no-repeat;
 
-  &__image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    max-height: 100%;
+  &:hover {
+    opacity: 0.5;
+    cursor: pointer;
   }
 }

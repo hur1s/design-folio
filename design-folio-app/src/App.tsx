@@ -25,6 +25,7 @@ import xbox from './assets/xbox.jpg';
 function App() {
   let isLoaded = false;
   const [isLoading, setIsLoading] = useState(true);
+  const [showImage, setShowImage] = useState('');
   const images: string[] = [
     absolute,
     ciportal01,
@@ -46,12 +47,18 @@ function App() {
   ];
 
   useEffect(() => {
-    if (isLoaded) {
-      return;
+    if (!isLoaded) {
+      cacheImages(images);
     }
-
-    cacheImages(images);
   });
+
+  const handleClick = (image: string) => {
+    setShowImage(image);
+  };
+
+  const handleClose = () => {
+    setShowImage('');
+  }
 
   const cacheImages = async (srcArray: string[]) => {
     try {
@@ -75,13 +82,21 @@ function App() {
   }
   
   return (
-    <div className="App">
+    <div className="App absolute w-full">
       {isLoading 
       ? 
       <div>isLoading</div> 
       :
-      <div className="flex">
-        {images.map((image, index) => <Thumbnail key={index} image={image}></Thumbnail>)}
+      <div>
+      <div className="p-1 grid grid-flow-row grid-cols-2 sm:grid-cols-4 gap-1">
+        {images.map((image, index) => <div key={index} className="text-center"><Thumbnail key={index} image={image} onClick={handleClick}></Thumbnail></div>)}
+      </div>
+      {showImage !== '' && 
+        <div 
+          onClick={handleClose} 
+          className="fixed p-4 top-0 left-0 bg-black bg-opacity-80 w-full h-full">
+            <img className="m-auto h-auto max-h-full w-auto" src={showImage} alt="" /></div>
+      }
       </div>
       }
     </div>
